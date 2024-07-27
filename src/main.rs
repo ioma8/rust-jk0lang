@@ -26,7 +26,7 @@ impl Value {
     fn to_string(&self) -> String {
         match self.value_type {
             ValueType::String => self.value_string.clone(),
-            ValueType::Float => self.value_float.to_string(),
+            ValueType::Float => self.value_float.to_string() + &self.float_unit,
             ValueType::Bool => self.value_bool.to_string(),
         }
     }
@@ -56,6 +56,7 @@ fn main() {
     println(\"floating value: \", floating)
     println(\"negative float value: \", -1.23)
     println(\"printing formatted number 1 286 456.90: \", 1 286 456.90)
+    println(\"number with unit: \", 1.23 Kč)
     ";
     // TODO: vytvorit typ, kterej je float s jednotkou kk
 
@@ -185,6 +186,7 @@ fn parse_value(pair: Pair<Rule>) -> Value {
     let mut value_string = "";
     let mut value_float = 0.0;
     let mut value_bool = false;
+    let mut float_unit = "";
     for inner_pair in pair.into_inner() {
         match inner_pair.as_rule() {
             Rule::string => {
@@ -193,7 +195,21 @@ fn parse_value(pair: Pair<Rule>) -> Value {
             }
             Rule::float => {
                 value_type = ValueType::Float;
-                value_float = inner_pair.as_str().replace(' ', "").parse::<f64>().unwrap();
+                for inner_inner_pair in inner_pair.into_inner() {
+                    match inner_inner_pair.as_rule() {
+                        Rule::float_value => {
+                            value_float = inner_inner_pair
+                                .as_str()
+                                .replace(' ', "")
+                                .parse::<f64>()
+                                .unwrap();
+                        }
+                        Rule::float_unit => {
+                            float_unit = inner_inner_pair.as_str();
+                        }
+                        _ => {}
+                    }
+                }
             }
             Rule::boolean => {
                 value_type = ValueType::Bool;
@@ -209,7 +225,7 @@ fn parse_value(pair: Pair<Rule>) -> Value {
         value_string: value_string.to_string(),
         value_float,
         value_bool,
-        float_unit: "".to_string(),
+        float_unit: float_unit.to_string(),
     }
 }
 

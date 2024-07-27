@@ -1,8 +1,10 @@
 WHITESPACE           = _{ " " | "\t" | "\r" | "\n" }
 string               = @{ "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
-float                = @{ "-"? ~ ((ASCII_DIGIT | " ")+ ~ ("."))? ~ (ASCII_DIGIT)+ }
+float_value          = ${ "-"? ~ ((ASCII_DIGIT | " ")+ ~ ("."))? ~ (ASCII_DIGIT)+ }
+float_unit           = ${ " "? ~ LETTER+ }
+float                = @{ float_value ~ float_unit? }
 boolean              =  { "true" | "false" }
-symbol               = @{ (ASCII_ALPHA | "_")+ }
+symbol               = @{ (LETTER | "_")+ }
 value                =  { string | float | boolean }
 expression           =  { value | symbol | function_call }
 function_call        =  { symbol ~ "(" ~ (expression ~ ("," ~ expression)*)? ~ ")" }
