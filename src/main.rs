@@ -58,7 +58,10 @@ fn main() {
     println(\"printing formatted number 1 286 456.90: \", 1 286 456.90)
     println(\"number with unit: \", 1.23 Kč)
     ";
-    // TODO: vytvorit typ, kterej je float s jednotkou kk
+    // TODO: float value s jednotkou - kontrola na scitacich atd operacich, aby to umoznovalo jen soucet se stejjnou jednotkou a odecet
+    // u nasobeni a deleni to jednotku upravi (lomitkem kk - cas pod a cas nad)
+
+    // TODO: pridat do parseru podporu zakladnich matematichých operaci + - * / a závorek
 
     let file = MyParser::parse(Rule::main, &sample_code)
         .expect("unsuccessful parse") // unwrap the parse result
