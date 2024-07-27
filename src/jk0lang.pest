@@ -7,6 +7,10 @@ value                =  { string | float | boolean }
 expression           =  { value | symbol | function_call }
 function_call        =  { symbol ~ "(" ~ (expression ~ ("," ~ expression)*)? ~ ")" }
 variable_declaration =  { "val" ~ symbol ~ "=" ~ expression ~ NEWLINE? }
+if_statement         =  { "if" ~ expression ~ "{" ~ (statement)* ~ "}" }
+do_statement         =  { "do" ~ "{" ~ (statement)* ~ "}" }
+statement            = _{ variable_declaration | function_call | if_statement | do_statement }
+function_definition  =  { "fn" ~ symbol ~ "(" ~ (symbol ~ ("," ~ symbol)*)? ~ ")" ~ "{" ~ (statement)* ~ "}" }
 main                 =  {
-    SOI ~ (variable_declaration | function_call)* ~ EOI
+    SOI ~ (statement | function_definition | NEWLINE)* ~ EOI
 }
