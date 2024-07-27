@@ -19,6 +19,7 @@ struct Value {
     value_string: String,
     value_float: f64,
     value_bool: bool,
+    float_unit: String,
 }
 
 impl Value {
@@ -54,7 +55,9 @@ fn main() {
     val floating = 1.23
     println(\"floating value: \", floating)
     println(\"negative float value: \", -1.23)
+    println(\"printing formatted number 1 286 456.90: \", 1 286 456.90)
     ";
+    // TODO: vytvorit typ, kterej je float s jednotkou kk
 
     let file = MyParser::parse(Rule::main, &sample_code)
         .expect("unsuccessful parse") // unwrap the parse result
@@ -85,6 +88,7 @@ fn declare_variable(pair: Pair<Rule>, machine_state: &mut MachineState) {
         value_string: "".to_string(),
         value_float: 0.0,
         value_bool: false,
+        float_unit: "".to_string(),
     };
     for inner_pair in pair.into_inner() {
         match inner_pair.as_rule() {
@@ -189,7 +193,7 @@ fn parse_value(pair: Pair<Rule>) -> Value {
             }
             Rule::float => {
                 value_type = ValueType::Float;
-                value_float = inner_pair.as_str().parse::<f64>().unwrap();
+                value_float = inner_pair.as_str().replace(' ', "").parse::<f64>().unwrap();
             }
             Rule::boolean => {
                 value_type = ValueType::Bool;
@@ -205,6 +209,7 @@ fn parse_value(pair: Pair<Rule>) -> Value {
         value_string: value_string.to_string(),
         value_float,
         value_bool,
+        float_unit: "".to_string(),
     }
 }
 

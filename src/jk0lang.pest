@@ -1,6 +1,6 @@
 WHITESPACE           = _{ " " | "\t" | "\r" | "\n" }
 string               = @{ "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
-float                = @{ "-"? ~ ((ASCII_DIGIT)+ ~ ("."))? ~ (ASCII_DIGIT)+ }
+float                = @{ "-"? ~ ((ASCII_DIGIT | " ")+ ~ ("."))? ~ (ASCII_DIGIT)+ }
 boolean              =  { "true" | "false" }
 symbol               = @{ (ASCII_ALPHA | "_")+ }
 value                =  { string | float | boolean }
