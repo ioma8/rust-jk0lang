@@ -53,6 +53,7 @@ fn main() {
     val chybejici = xxyyzz
     val floating = 1.23
     println(\"floating value: \", floating)
+    println(\"negative float value: \", -1.23)
     ";
 
     let file = MyParser::parse(Rule::main, &sample_code)
