@@ -1,3 +1,5 @@
+use core::fmt;
+
 use pest::iterators::Pair;
 use pest::Parser;
 use pest_derive::Parser;
@@ -22,13 +24,14 @@ struct Value {
     float_unit: String,
 }
 
-impl Value {
-    fn to_string(&self) -> String {
-        match self.value_type {
+impl fmt::Display for Value {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let string = match self.value_type {
             ValueType::String => self.value_string.clone(),
             ValueType::Float => self.value_float.to_string() + &self.float_unit,
             ValueType::Bool => self.value_bool.to_string(),
-        }
+        };
+        write!(f, "{}", string)
     }
 }
 
@@ -116,11 +119,8 @@ fn call_function(pair: Pair<Rule>, machine_state: &mut MachineState) {
             Rule::expression => {
                 let inner_pair = inner_pair.into_inner().next().unwrap();
                 let value = get_expression_value(inner_pair, machine_state);
-                match value {
-                    Some(value) => {
-                        arguments.push(value);
-                    }
-                    None => {}
+                if let Some(inner) = value {
+                    arguments.push(inner);
                 }
             }
             _ => {
@@ -160,11 +160,9 @@ fn get_expression_value(pair: Pair<Rule>, machine_state: &mut MachineState) -> O
         }
         Rule::value => {
             let value_parsed = parse_value(pair);
-            return Some(value_parsed);
+            Some(value_parsed)
         }
-        _ => {
-            return None;
-        }
+        _ => None,
     }
 }
 
@@ -221,8 +219,5 @@ fn get_variable_value(variable_name: &str, machine_state: &MachineState) -> Opti
         .variables
         .iter()
         .find(|(name, _)| name == variable_name);
-    match variable {
-        Some((_, value)) => Some(value.clone()),
-        None => None,
-    }
+    variable.map(|(_, value)| value.clone())
 }
