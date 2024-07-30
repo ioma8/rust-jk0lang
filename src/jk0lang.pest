@@ -8,12 +8,12 @@ symbol               = @{ (LETTER | "_")+ }
 value                =  { string | float | boolean }
 expression           =  { value | symbol | function_call }
 function_call        =  { symbol ~ "(" ~ (expression ~ ("," ~ expression)*)? ~ ")" }
-variable_declaration =  { "val" ~ symbol ~ "=" ~ expression ~ NEWLINE? }
+variable_declaration =  { symbol ~ "=" ~ expression ~ NEWLINE? }
 scope                =  { "{" ~ (statement)* ~ "}" }
 if_statement         =  { "if" ~ "(" ~ expression ~ ")" ~ scope ~ ("else" ~ scope)? }
 do_statement         =  { "do" ~ scope }
 statement            = _{ variable_declaration | function_call | if_statement | do_statement }
-function_definition  =  { "fn" ~ symbol ~ "(" ~ (symbol ~ ("," ~ symbol)*)? ~ ")" ~ scope }
+function_definition  =  { symbol ~ "(" ~ (symbol ~ ("," ~ symbol)*)? ~ ")" ~ scope }
 main                 =  {
     SOI ~ (statement | function_definition | NEWLINE)* ~ EOI
 }

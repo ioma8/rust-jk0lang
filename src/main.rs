@@ -39,25 +39,9 @@ struct MachineState {
 fn main() {
     println!("Parser of simple language called jk0lang");
 
-    let sample_code = "
-    val moja = \"moja hodnota\"
-    println(\"tisknu text\")
-    println(moja)
-    println(123)
-    println(true)
-    val cislo = 123
-    println(cislo)
-    println(nedefinovano)
-    neznama_fn()
-    val tvoja = moja
-    println(tvoja)
-    val chybejici = xxyyzz
-    val floating = 1.23
-    println(\"floating value: \", floating)
-    println(\"negative float value: \", -1.23)
-    println(\"printing formatted number 1 286 456.90: \", 1 286 456.90)
-    println(\"number with unit: \", 1.23 Kč)
-    ";
+    // read file into string
+    let sample_code = std::fs::read_to_string("sample.jk0").expect("Unable to read file");
+
     // TODO: float value s jednotkou - kontrola na scitacich atd operacich, aby to umoznovalo jen soucet se stejjnou jednotkou a odecet
     // u nasobeni a deleni to jednotku upravi (lomitkem kk - cas pod a cas nad)
 

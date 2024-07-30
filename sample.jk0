@@ -15,10 +15,3 @@
     println("negative float value: ", -1.23)
     println("printing formatted number 1 286 456.90: ", 1 286 456.90)
     println("number with unit: ", 1.23 Kč)
-    if (true) {
-        println("true")
-    }
-
-    do {
-        println("do while")
-    }
