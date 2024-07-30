@@ -1,0 +1,24 @@
+    moje_proměnná = "moja hodnota"
+    println("tisknu text")
+    println(moje_proměnná)
+    println(123)
+    println(true)
+    cislo = 123
+    println(cislo)
+    println(nedefinovano)
+    neznama_fn()
+    tvoja = moje_proměnná
+    println(tvoja)
+    chybejici = xxyyzz
+    floating = 1.23
+    println("floating value: ", floating)
+    println("negative float value: ", -1.23)
+    println("printing formatted number 1 286 456.90: ", 1 286 456.90)
+    println("number with unit: ", 1.23 Kč)
+    if (true) {
+        println("true")
+    }
+
+    do {
+        println("do while")
+    }
